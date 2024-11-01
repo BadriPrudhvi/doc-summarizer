@@ -8,6 +8,25 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    
+    // Remove any existing rules for PDF files
+    config.module.rules = config.module.rules.filter(rule => 
+      !rule.test?.test?.('.pdf')
+    );
+    
+    return config;
+  },
+  // Add these to handle worker files
+  experimental: {
+    optimizePackageImports: ['@react-pdf']
+  },
+  // Add this to allow loading resources from CDN
+  images: {
+    domains: ['unpkg.com', 'cdnjs.cloudflare.com'],
+  }
+}
 
 export default nextConfig;
